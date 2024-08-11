@@ -1,0 +1,15 @@
+{
+  "entity.hrbsdrills.drill": "Drill",
+  "item.hrbsdrills.drill": "Drill",
+  "item.hrbsdrills.gasoline": "Gasoline",
+  "item.hrbsdrills.drillhead": "Drill Head",
+  "item.hrbsdrills.engine": "Biosynthesizing Engine",
+  "item.hrbsdrills.biosynthesizing_engine.tooltip": "A biosynthesizing engine is a device that converts organic matter into fuel usable by vehicles.",
+  "hrbsdrills.drills": "Drills",
+  "drill.onboard": "Press %1$s to Dismount",
+  "key.categories.hrbsdrills": "HRB's Drills",
+  "key.hrbsdrills.openInv": "Open Inventory",
+  "key.hrbsdrills.snap": "Center",
+  "itemGroup.drills": "Drills",
+  "sounds.hrbsdrills.drill": "Drilling"
+    }

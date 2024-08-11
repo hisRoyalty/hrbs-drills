@@ -1,0 +1,27 @@
+{
+  "display": {
+    "icon": {
+      "item": "hrbsdrills:drill"
+    },
+    "title": "Digging Deep",
+    "description": "Unleash the power of the drill!",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "background": "hrbsdrills:textures/block/yellow.png"
+  },
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "hrbsdrills:drill"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

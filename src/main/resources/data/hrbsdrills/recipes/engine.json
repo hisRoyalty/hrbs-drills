@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "QFQ",
+    "RLR",
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:storage_blocks/iron"
+    },
+    "R": {
+      "tag": "forge:storage_blocks/redstone"
+    },
+    "L": {
+      "item": "minecraft:gold_block"
+    },
+    "Q": {
+      "tag": "forge:gems/quartz"
+    },
+    "F": {
+      "item": "minecraft:blast_furnace"
+    }
+  },
+  "result": {
+    "item": "hrbsdrills:engine"
+  }
+}

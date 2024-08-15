@@ -1,0 +1,14 @@
+{
+  "entity.hrbsdrills.drill": "Drill",
+  "item.hrbsdrills.drill": "Drill",
+  "item.hrbsdrills.gasoline": "Gasolina",
+  "item.hrbsdrills.drillhead": "Broca da Drill",
+  "item.hrbsdrills.engine": "Motor de biossíntese",
+  "item.hrbsdrills.biosynthesizing_engine.tooltip": "Um motor de biossíntese é um dispositivo que converte matéria orgânica em combustível utilizável por veículos.",
+  "hrbsdrills.drills": "Drills",
+  "key.categories.hrbsdrills": "HRB's Drills",
+  "key.hrbsdrills.openInv": "Abrir painel",
+  "key.hrbsdrills.snap": "Centralizar",
+  "itemGroup.drills": "Drills",
+  "sounds.hrbsdrills.drill": "Drilling"
+}

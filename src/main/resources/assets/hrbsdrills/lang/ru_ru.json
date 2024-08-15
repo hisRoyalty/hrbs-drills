@@ -1,0 +1,14 @@
+{
+  "entity.hrbsdrills.drill": "Бур",
+  "item.hrbsdrills.drill": "Бур",
+  "item.hrbsdrills.gasoline": "Конистра Бензина",
+  "item.hrbsdrills.drillhead": "Бурвая головка",
+  "item.hrbsdrills.engine": "Биосинтезирующий двигатель",
+  "item.hrbsdrills.biosynthesizing_engine.tooltip": "Биосинтезирующий двигатель — это устройство, которое преобразует органические вещества в топливо, используемое транспортными средствами.",
+  "hrbsdrills.drills": "Бур",
+  "key.categories.hrbsdrills": "HRB's Бур",
+  "key.hrbsdrills.openInv": "Открыть инвентарь",
+  "key.hrbsdrills.snap": "Центр",
+  "itemGroup.drills": "Бур",
+  "sounds.hrbsdrills.drill": "Бурение"
+}

@@ -18,6 +18,8 @@ public class DrillContainers {
     }
 
     public static final RegistryObject<MenuType<DrillContainer>> DRILL_CONTAINER = CONTAINERS.register("drill_container", () -> IForgeMenuType.create(DrillContainer::new));
+    public static final RegistryObject<MenuType<DrillContainer>> STORAGE_CONTAINER = CONTAINERS.register("storage_container", () -> IForgeMenuType.create(DrillContainer::new));
+
 
 
 }

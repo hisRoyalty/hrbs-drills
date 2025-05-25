@@ -17,6 +17,5 @@ public class DrillNetworking {
     public static void init() {
         DRILL.registerMessage(++channel_id, OpenDrillFuelMenuPacket.class, OpenDrillFuelMenuPacket::toBytes, OpenDrillFuelMenuPacket::new, OpenDrillFuelMenuPacket::handle);
         DRILL.registerMessage(++channel_id, SnapPacket.class, SnapPacket::toBytes, SnapPacket::new, SnapPacket::handle);
-
         }
     }

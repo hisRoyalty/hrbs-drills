@@ -1,6 +1,7 @@
 package com.hisroyalty.hrbsdrills.container;
 
 import com.hisroyalty.hrbsdrills.DrillContainers;
+import com.hisroyalty.hrbsdrills.DrillsMod;
 import com.hisroyalty.hrbsdrills.entity.DrillEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
@@ -33,48 +34,51 @@ public class DrillContainer extends AbstractContainerMenu {
 
     public DrillContainer(int id, Inventory playerInventory, DrillEntity drillEntity) {
         super(DrillContainers.DRILL_CONTAINER.get(), id);
-        checkContainerSize(playerInventory, 2);
+        checkContainerSize(playerInventory, 3);
         this.drillEntity = drillEntity;
 
        initSlots(playerInventory);
     }
 
     private void initSlots(Inventory playerInventory) {
+        int yOffset = hasChest(drillEntity) ? 0 : 0;
 
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
-                addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+                addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 76 + i * 18 + yOffset));
             }
         }
         if (this.drillEntity != null) {
             this.drillEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
-                SlotItemHandler slot1 = new SlotItemHandler(iItemHandler, 0, 152, 47) {
+                SlotItemHandler slot1 = new SlotItemHandler(iItemHandler, 0, 26, 8 + yOffset) {
                     @Override
                     public boolean mayPlace(@Nonnull ItemStack stack) {
                         return stack.getItem().equals(Items.WATER_BUCKET);
                     }
-                };                this.addSlot(slot1);
+                };
 
-                SlotItemHandler slot = new SlotItemHandler(iItemHandler, 1, 45, 38) {
+                SlotItemHandler slot = new SlotItemHandler(iItemHandler, 1, 126, 37 + yOffset) {
                     @Override
                     public boolean mayPlace(@Nonnull ItemStack stack) {
                         return ForgeHooks.getBurnTime(stack, null) > 0;
                     }
                 };
+
+                SlotItemHandler slot2 = new SlotItemHandler(iItemHandler, 2, 62, 7 + yOffset) {
+                    @Override
+                    public boolean mayPlace(@Nonnull ItemStack stack) {
+                        return stack.getItem().equals(DrillsMod.DRILL_HEAD.get()) || stack.getItem().equals(DrillsMod.SAW_DRILL_HEAD.get());
+                    }
+                };
+                this.addSlot(slot2);
                 this.addSlot(slot1);
                 this.addSlot(slot);
             });
-            }
-
-
-
-
-        for (int k = 0; k < 9; ++k) {
-            addSlot(new Slot(playerInventory, k, 8 + k * 18, 142));
         }
 
-
-
+        for (int k = 0; k < 9; ++k) {
+            addSlot(new Slot(playerInventory, k, 8 + k * 18, 134 + yOffset));
+        }
     }
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
@@ -134,6 +138,10 @@ public class DrillContainer extends AbstractContainerMenu {
 
     public DrillEntity getDrillEntity() {
         return drillEntity;
+    }
+
+    private boolean hasChest(DrillEntity entity) {
+        return entity.getHasChestUpgrade();
     }
 
 

@@ -26,6 +26,13 @@ public class Config
             .defineInRange("fuelEfficiency", 12, 1, Integer.MAX_VALUE);
 
 
+    public static final ForgeConfigSpec.DoubleValue VOL = BUILDER
+            .comment("Volume of the Drilling Sound.")
+            .defineInRange("volume", 0.25f, 0, Integer.MAX_VALUE);
+
+    public static final ForgeConfigSpec.DoubleValue PITCH = BUILDER
+            .comment("Pitch of the Drilling Sound.")
+            .defineInRange("pitch", 1f, 0, Integer.MAX_VALUE);
 
    /* public static final ForgeConfigSpec.ConfigValue<TagKey<Block>> BlOCKS_THAT_CAN_BE_MINED = BUILDER
             .comment("Blocks that can be mined by the drill")
@@ -39,6 +46,9 @@ public class Config
 
     public static boolean dropBlock;
     public static int fuelEfficiency;
+    public static float vol;
+    public static float pitch;
+
 /*
     public static TagKey<Block> blocksThatCanBeMined;
 */
@@ -53,6 +63,8 @@ public class Config
     {
         dropBlock = DROP_BLOCK.get();
         fuelEfficiency = FUEL_EFFICIENCY.get();
+        vol = VOL.get().floatValue();
+        pitch = PITCH.get().floatValue();
 
 
         }

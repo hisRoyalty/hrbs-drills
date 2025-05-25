@@ -3,24 +3,16 @@ package com.hisroyalty.hrbsdrills;
 import com.hisroyalty.hrbsdrills.client.item.BiosynthesizingEngine;
 import com.hisroyalty.hrbsdrills.client.item.DrillSpawnEgg;
 import com.hisroyalty.hrbsdrills.client.screen.DrillContainerScreen;
-import com.hisroyalty.hrbsdrills.entity.DrillEntity;
 import com.hisroyalty.hrbsdrills.entity.ModEntities;
 import com.hisroyalty.hrbsdrills.entity.render.DrillEntityRenderer;
 import com.hisroyalty.hrbsdrills.network.DrillNetworking;
 import com.hisroyalty.hrbsdrills.sound.SoundRegistry;
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LightBlock;
@@ -43,10 +35,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
 
-import java.util.function.Supplier;
-
-import static com.hisroyalty.hrbsdrills.entity.ModEntities.ENTITY_TYPES;
-
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(DrillsMod.MODID)
 public class DrillsMod
@@ -64,7 +52,9 @@ public class DrillsMod
     public static final RegistryObject<Item> ENGINE = ITEMS.register("engine", () -> new BiosynthesizingEngine(new Item.Properties()));
 
 
-    public static final RegistryObject<Item> DRILL_HEAD = ITEMS.register("drillhead", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> DRILL_HEAD = ITEMS.register("drillhead", () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final RegistryObject<Item> SAW_DRILL_HEAD = ITEMS.register("saw_drillhead", () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final RegistryObject<Item> STOWAGE = ITEMS.register("stowage", () -> new Item(new Item.Properties()));
 
 
     public static final RegistryObject<Item> DRILL = ITEMS.register("drill", () -> new DrillSpawnEgg(new Item.Properties(), ModEntities.DRILL::get));
@@ -112,7 +102,9 @@ public class DrillsMod
             .displayItems((parameters, output) -> {
                 output.accept(DRILL.get());
                 output.accept(DRILL_HEAD.get());
+                output.accept(SAW_DRILL_HEAD.get());
                 output.accept(ENGINE.get());
+                output.accept(STOWAGE.get());
             }).build());
     public DrillsMod()
     {
@@ -139,6 +131,7 @@ public class DrillsMod
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {
+
     }
 
 

@@ -5,10 +5,11 @@ import com.hisroyalty.hrbsdrills.Config;
 import com.hisroyalty.hrbsdrills.DrillsMod;
 import com.hisroyalty.hrbsdrills.container.DrillContainer;
 import com.hisroyalty.hrbsdrills.sound.SoundRegistry;
-import com.hisroyalty.hrbsdrills.util.UtilLightBlock;
+import com.hisroyalty.hrbsdrills.upgrade.tree.TreeProcessor;
 import net.minecraft.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -16,9 +17,7 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.packs.repository.PackCompatibility;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
@@ -29,14 +28,11 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.DismountHelper;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -44,7 +40,7 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.level.PistonEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
@@ -58,10 +54,10 @@ import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 import static com.hisroyalty.hrbsdrills.DrillsMod.DRILL;
+import static com.hisroyalty.hrbsdrills.upgrade.tree.TreeProcessor.MAX_TREE_HEIGHT;
 
 public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
         private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
@@ -77,21 +73,25 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
 
 
 
-        public static final EntityDataAccessor<Integer> MAX_HEALTH = SynchedEntityData.defineId(DrillEntity.class, EntityDataSerializers.INT);
-        public static final EntityDataAccessor<Integer> HEALTH = SynchedEntityData.defineId(DrillEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> MAX_HEALTH = SynchedEntityData.defineId(DrillEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> HEALTH = SynchedEntityData.defineId(DrillEntity.class, EntityDataSerializers.INT);
 
-        public static final EntityDataAccessor<Integer> PROGRESS = SynchedEntityData.defineId(DrillEntity.class, EntityDataSerializers.INT);
-        public static final EntityDataAccessor<Integer> MAX_PROGRESS = SynchedEntityData.defineId(DrillEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> PROGRESS = SynchedEntityData.defineId(DrillEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> MAX_PROGRESS = SynchedEntityData.defineId(DrillEntity.class, EntityDataSerializers.INT);
 
     public static final EntityDataAccessor<Integer> WPROGRESS = SynchedEntityData.defineId(DrillEntity.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Integer> MAX_WPROGRESS = SynchedEntityData.defineId(DrillEntity.class, EntityDataSerializers.INT);
 
 
-    public static final EntityDataAccessor<Boolean> NETHERITE = SynchedEntityData.defineId(DrillEntity.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Boolean> HAS_NETHERITE_UPGRADE = SynchedEntityData.defineId(DrillEntity.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Boolean> HAS_CHEST_UPGRADE = SynchedEntityData.defineId(DrillEntity.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Boolean> HAS_DRILL_HEAD = SynchedEntityData.defineId(DrillEntity.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Boolean> HAS_SAW_DRILL_HEAD = SynchedEntityData.defineId(DrillEntity.class, EntityDataSerializers.BOOLEAN);
 
 
 
-    private float previousRotationYaw;
+
+
 
 
 
@@ -107,54 +107,25 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
 
 
     public int accelerationTime;
-        public int timeInVehicle;
+    public int timeInVehicle;
 
-        public float yrot;
-
-
-        private boolean inputLeft;
-        private boolean inputRight;
-        private boolean inputUp;
-        private boolean inputDown;
+    public float yrot;
 
 
-//protected final ContainerData data;
+    private boolean inputLeft;
+    private boolean inputRight;
+    private boolean inputUp;
+    private boolean inputDown;
+
+    private int networkUpdateInterval;
+
+
 
 
     public DrillEntity(EntityType<? extends DrillEntity> entityType, Level world) {
-
-
-            super(entityType, world);
-            /*this.data = new ContainerData() {
-                @Override
-                public int get(int pIndex) {
-                    return switch (pIndex) {
-                        case 0 -> DrillEntity.this.getProgress();
-                        case 1 -> DrillEntity.this.getMaxProgress();
-                        case 2 -> DrillEntity.this.getWProgress();
-                        case 3 -> DrillEntity.this.getMaxWProgress();
-                        default -> 0;
-                    };
-                }
-
-                @Override
-                public void set(int pIndex, int pValue) {
-                    switch (pIndex) {
-                        case 0 -> DrillEntity.this.setProgress(pValue);
-                        case 1 -> DrillEntity.this.setMaxProgress(pValue);
-                        case 2 -> DrillEntity.this.setWProgress(pValue);
-                        case 3 -> DrillEntity.this.setMaxWProgress(pValue);
-
-                    }
-                }
-
-                @Override
-                public int getCount() {
-                    return 2;
-                }
-            }*/;
-
-        }
+        super(entityType, world);
+        networkUpdateInterval = entityType.updateInterval();
+    }
 
 
 
@@ -162,16 +133,18 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
         @Override
         public InteractionResult interactAt(Player player, Vec3 hitPos, InteractionHand hand) {
             ItemStack itemstack = player.getItemInHand(hand);
-            if (itemstack.getItem() == Items.NETHERITE_BLOCK && !this.getNetherite()) {
-                if (!player.isCreative()) {
-                    itemstack.shrink(1);
-                }
-                this.entityData.set(NETHERITE, true);
+            if (addUpgrade(player, itemstack)) {
+                return InteractionResult.SUCCESS;
             }
 
             else if (canAddPassenger(player)) {
-                player.startRiding(this, true);
-                return InteractionResult.PASS;
+                //player.startRiding(this, true);
+                PlayerInteractEvent.EntityInteract event = new PlayerInteractEvent.EntityInteract(player, hand, this);
+                if (!net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event)) {
+                    player.startRiding(this, true);
+                    return InteractionResult.PASS;
+                }
+                //return InteractionResult.PASS;
             }
             return InteractionResult.FAIL;
         }
@@ -194,6 +167,7 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
                 break;
         }
     }
+
 
         @Override
         protected void checkFallDamage(double pY, boolean pOnGround, BlockState pState, BlockPos pPos) {
@@ -257,14 +231,11 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
         }
 
 
+    public ItemStackHandler getItemHandler() {
+        return itemHandler;
+    }
 
-
-
-
-
-
-
-        @Override
+    @Override
         public void push(Entity pEntity) {
             super.push(pEntity);
             LivingEntity entity = (LivingEntity) pEntity;
@@ -318,27 +289,41 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
         }
 
 
-        public boolean isBreakableBlock(BlockState blockstate) {
-
-
+    private boolean isBreakableBlock(BlockState blockstate) {
+        if (this.hasDrillHead()) {
             return blockstate.is(BlockTags.MINEABLE_WITH_PICKAXE) || blockstate.is(BlockTags.MINEABLE_WITH_SHOVEL);
+        } else if (this.hasSawDrillHead()) {
+            // Allow both logs and leaves for tree processing
+            return blockstate.is(BlockTags.LEAVES) || blockstate.is(BlockTags.LOGS);
         }
-
+        return false;
+    }
 
         private boolean destroyBlocks(AABB pArea) {
 
             final Vec3 facing = Vec3.directionFromRotation(this.getRotationVector());
             final double floatingHeight = 0.5;
             final Vec3 floatingOffset = new Vec3(0, floatingHeight, 0);
-            final AABB box = this.getBoundingBox().move(facing.normalize().add(floatingOffset));
+            final AABB box = pArea.move(facing.normalize().add(floatingOffset));
 
             boolean flag = false;
 
             BlockPos.betweenClosedStream(box).forEach(blockPos -> {
 
                 BlockState blockstate = this.level().getBlockState(blockPos);
+                if (this.hasSawDrillHead() && isBreakableBlock(blockstate)) {
+                    TreeProcessor processor = new TreeProcessor(level());
 
-                if (isBreakableBlock(blockstate) && blockstate.canOcclude()) {
+                    Set<BlockPos> treeBlocks = processor.gatherTree(blockPos);
+
+                    if (!treeBlocks.isEmpty()) {
+                        processor.processTree(treeBlocks, true, this);
+                    }
+
+
+
+                }
+                else if (isBreakableBlock(blockstate) && blockstate.canOcclude()) {
                     this.level().destroyBlock(blockPos, Config.DROP_BLOCK.get(), this);
                 }
             });
@@ -358,15 +343,10 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
         }
 
 
-
         @Override
         public boolean shouldRiderSit() {
             return false;
         }
-
-
-
-
 
 
         @Override
@@ -378,12 +358,8 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
         @Override
         protected void positionRider(Entity pPassenger, MoveFunction pCallback) {
             //pPassenger.setYRot(pPassenger.getYHeadRot());
+            pCallback.accept(pPassenger, this.getX(), this.getY(), this.getZ() + 1.5);
             super.positionRider(pPassenger, pCallback);
-        }
-
-        @Override
-        public Iterable<ItemStack> getArmorSlots() {
-            return null;
         }
 
         @Override
@@ -491,8 +467,23 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
 
 
 
-
-
+        public boolean addUpgrade(Player player, ItemStack item) {
+            if (item.getItem() == DrillsMod.STOWAGE.get() && !this.getHasChestUpgrade()) {
+                if (!player.isCreative()) {
+                    item.shrink(1);
+                }
+                setHasChestUpgrade(true);
+                return true;
+            }
+            if (item.getItem() == Items.NETHERITE_BLOCK && !this.getNetherite()) {
+                if (!player.isCreative()) {
+                    item.shrink(1);
+                }
+                this.entityData.set(HAS_NETHERITE_UPGRADE, true);
+                return true;
+            }
+            return false;
+        }
 
 
 
@@ -549,10 +540,6 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
         @Override
         public InteractionResult interact(Player player, InteractionHand hand) {
             if (!player.isShiftKeyDown()) {
-                if (player.getVehicle() != this) {
-                    if (!level().isClientSide) {
-                    }
-                }
                 return InteractionResult.SUCCESS;
             }
             return InteractionResult.FAIL;
@@ -574,6 +561,17 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
 
         @Override
         public void tick() {
+            if (!this.level().isClientSide) {
+                ItemStack stack = this.getItemHandler().getStackInSlot(2);
+                this.setHasDrillHead(stack.is(DrillsMod.DRILL_HEAD.get()));
+                this.setHasSawDrillHead(stack.is(DrillsMod.SAW_DRILL_HEAD.get()));
+            }
+
+            double gravity = 0.875D;
+            if (!this.onGround()) {
+                Vec3 motion = this.getDeltaMovement();
+                this.setDeltaMovement(motion.x, motion.y - gravity, motion.z);
+            }
 
 
             if (this.hasControllingPassenger() && this.getNetherite()) {
@@ -604,6 +602,7 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
 //            }
             // SLOT 1 -> FUEL SLOT
             // SLOT 0 -> WATER SLOT
+            // SLOT 2 -> DRILL HEAD SLOT
             if (!level().isClientSide) {
             if (getWProgress()>0) {
                 setWProgress(getWProgress() - 1);
@@ -638,7 +637,12 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
             super.tick();
             tickLerp();
 
-            // unconditional, not sure why this works
+            if (level().isClientSide && !isControlledByLocalInstance()) {
+                tickLerp();
+            }
+
+
+                // unconditional, not sure why this works
             this.setDeltaMovement(Vec3.ZERO);
             this.yrot = this.getYRot();
 
@@ -648,9 +652,6 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
                 this.previousPosition = this.position();
             }
 
-            if (this.getYRot() != this.previousRotationYaw) {
-                this.previousRotationYaw = this.getYRot();
-            }
 
 
             if (this.isControlledByLocalInstance()) {
@@ -667,7 +668,13 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
             if (this.isVehicle()) {
                 timeInVehicle++;
             }
-            destroyBlocks(this.getBoundingBox());
+
+            if (this.hasDrillHead()) {
+                destroyBlocks(this.getBoundingBox());
+            } else if (this.hasSawDrillHead()) {
+                AABB box = this.getBoundingBox().inflate(6, MAX_TREE_HEIGHT, 0);
+                destroyBlocks(box);
+            }
 
         }
 
@@ -695,13 +702,74 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
             entityData.define(MAX_PROGRESS, 0);
             entityData.define(WPROGRESS, 0);
             entityData.define(MAX_WPROGRESS, 0);
-            entityData.define(NETHERITE, false);
-
-
-
-
+            entityData.define(HAS_NETHERITE_UPGRADE, false);
+            entityData.define(HAS_CHEST_UPGRADE, false);
+            entityData.define(HAS_DRILL_HEAD, false);
+            entityData.define(HAS_SAW_DRILL_HEAD, false);
 
         }
+
+
+    public boolean isTree(BlockPos startBlock) {
+        Set<BlockPos> checkedBlocks = new HashSet<>();
+        Queue<BlockPos> blocksToCheck = new LinkedList<>();
+        blocksToCheck.add(startBlock);
+
+        int logCount = 0;
+        int leafCount = 0;
+
+        while (!blocksToCheck.isEmpty()) {
+            BlockPos currentPos = blocksToCheck.poll();
+            if (checkedBlocks.contains(currentPos)) continue;
+
+            BlockState currentBlock = level().getBlockState(currentPos);
+
+            if (isLog(currentBlock)) {
+                logCount++;
+                blocksToCheck.addAll(getAdjacentBlocks(currentPos));
+            } else if (isLeaf(currentBlock)) {
+                leafCount++;
+            }
+
+            checkedBlocks.add(currentPos);
+
+            // Stop if we've exceeded a reasonable tree size
+            if (logCount > 8 || checkedBlocks.size() > 40) {
+                return false;
+            }
+        }
+
+        // Validate tree based on logs, leaves, and other criteria
+        return logCount >= 2 && leafCount >= 8;
+    }
+
+    private List<BlockPos> getAdjacentBlocks(BlockPos pos) {
+        return List.of(pos.above(), pos.below(), pos.north(), pos.south(), pos.east(), pos.west());
+    }
+
+    private boolean isLog(BlockState block) {
+        return block.is(BlockTags.LOGS);
+    }
+
+    private boolean isLeaf(BlockState block) {
+        return block.is(BlockTags.LEAVES);
+    }
+
+    public boolean hasDrillHead() {
+        return this.entityData.get(HAS_DRILL_HEAD);
+    }
+
+    public void setHasDrillHead(boolean hasDrillHead) {
+        this.entityData.set(HAS_DRILL_HEAD, hasDrillHead);
+    }
+
+    public boolean hasSawDrillHead() {
+        return this.entityData.get(HAS_SAW_DRILL_HEAD);
+    }
+
+    public void setHasSawDrillHead(boolean hasDrillHead) {
+        this.entityData.set(HAS_SAW_DRILL_HEAD, hasDrillHead);
+    }
 
     @Nullable
     @Override
@@ -718,18 +786,31 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
         }
 
         public void setNetherite(boolean netherite) {
-            entityData.set(NETHERITE, netherite);
+            entityData.set(HAS_NETHERITE_UPGRADE, netherite);
         }
 
         public boolean getNetherite() {
-            return entityData.get(NETHERITE);
+            return entityData.get(HAS_NETHERITE_UPGRADE);
         }
+
+
 
         public int getMaxHealth() {
             return entityData.get(MAX_HEALTH);
         }
 
 
+        public void setMaxHealth(int maxHealth) {
+            entityData.set(MAX_HEALTH, maxHealth);
+        }
+
+        public void setHasChestUpgrade(boolean chestUpgrade) {
+            entityData.set(HAS_CHEST_UPGRADE, chestUpgrade);
+        }
+
+        public boolean  getHasChestUpgrade() {
+            return entityData.get(HAS_CHEST_UPGRADE);
+        }
 
         @Override
         public void readAdditionalSaveData(CompoundTag pCompound) {
@@ -763,11 +844,16 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
                 setMaxWProgress(pCompound.getInt("maxWProgress"));
             }
             if (pCompound.contains("netherite")) {
-                entityData.set(NETHERITE, pCompound.getBoolean("netherite"));
+                entityData.set(HAS_NETHERITE_UPGRADE, pCompound.getBoolean("netherite"));
+            }
+            if (pCompound.contains("chest")) {
+                entityData.set(HAS_CHEST_UPGRADE, pCompound.getBoolean("chest"));
             }
 
 
+
         }
+
 
 
 
@@ -786,7 +872,9 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
 
 
 
-            pCompound.putBoolean("netherite", entityData.get(NETHERITE));
+            pCompound.putBoolean("netherite", entityData.get(HAS_NETHERITE_UPGRADE));
+            pCompound.putBoolean("chest", entityData.get(HAS_CHEST_UPGRADE));
+
 
 
 
@@ -795,12 +883,17 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
         }
 
 
-        public ItemStack getItemStack() {
+
+
+
+
+    public ItemStack getItemStack() {
             ItemStack itemStack = getItem().getDefaultInstance();
             CompoundTag compound = new CompoundTag();
             addAdditionalSaveData(compound);
             compound.putInt("health", entityData.get(MAX_HEALTH));
-            compound.putBoolean("netherite", entityData.get(NETHERITE));
+            compound.putBoolean("netherite", entityData.get(HAS_NETHERITE_UPGRADE));
+            compound.putBoolean("chest", entityData.get(HAS_CHEST_UPGRADE));
             itemStack.addTagElement("Compound", compound);
             return itemStack;
         }
@@ -835,81 +928,83 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
 
 
 
-        @Override
-        public boolean hurt(DamageSource pSource, float pAmount) {
+    @Override
+    public boolean hurt(DamageSource pSource, float pAmount) {
 
-            if(getHealth()<=0) {
-                kill();
-                dropItem();
-                drops();
-            }
-
-            pAmount = 3;
-
-            if (pSource.type() == level().damageSources().cactus().type() || pSource.type() == level().damageSources().sweetBerryBush().type()) {
-                return false;
-            }
-
-
-            if (getNetherite() && (pSource.type() == level().damageSources().lava().type() || pSource.type() == level().damageSources().inFire().type() || pSource.type() == level().damageSources().onFire().type())) {
-                return false;
-            }
-
-
-
-            if (pSource == level().damageSources().drown()) {
-                return false;
-            }
-
-            if (pSource.type() == level().damageSources().cactus().type() || pSource.type() == level().damageSources().sweetBerryBush().type()) {
-                return false;
-            }
-
-
-            this.setHealth((int) (this.entityData.get(HEALTH)-pAmount));
-
-            return super.hurt(pSource, pAmount);
+        if(getHealth()<=0) {
+            kill();
+            dropItem();
+            drops();
         }
 
-        @Override
-        protected void playStepSound(BlockPos pPos, BlockState pBlock) {
-            this.playSound(SoundRegistry.DRILL.get(), 0.25f, 1F);
-        }
+        pAmount = 3;
 
-        @Override
-        protected void removePassenger(Entity pPassenger) {
-            super.removePassenger(pPassenger);
-        }
-
-        @Override
-        public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-            controllers.add(new AnimationController<>(this, "controller", 1, this::predicate));
-
+        if (pSource.type() == level().damageSources().cactus().type() || pSource.type() == level().damageSources().sweetBerryBush().type()) {
+            return false;
         }
 
 
-        protected <E extends GeoAnimatable> PlayState predicate(AnimationState<E> event) {
-            if (this.xo != this.getX() || this.zo != this.getZ()) {
-                if (this.getNetherite()) {
-                    event.getController().setAnimation(RawAnimation.begin().then("drill_v5", Animation.LoopType.LOOP));
-                } else {
-                    event.getController().setAnimation(RawAnimation.begin().then("drill_v1", Animation.LoopType.LOOP));
-                }
-                return PlayState.CONTINUE;
-            }
-            return PlayState.STOP;
-        }
-        @Override
-        public AnimatableInstanceCache getAnimatableInstanceCache() {
-            return cache;
+        if (getNetherite() && (pSource.type() == level().damageSources().lava().type() || pSource.type() == level().damageSources().inFire().type() || pSource.type() == level().damageSources().onFire().type())) {
+            return false;
         }
 
 
-        @org.jetbrains.annotations.Nullable
-        @Override
-        public LivingEntity getControllingPassenger() {
-            return this.getPassengers().isEmpty() ? null : (LivingEntity) this.getPassengers().get(0);
+
+        if (pSource == level().damageSources().drown()) {
+            return false;
         }
+
+        if (pSource.type() == level().damageSources().cactus().type() || pSource.type() == level().damageSources().sweetBerryBush().type()) {
+            return false;
+        }
+
+
+        this.setHealth((int) (this.entityData.get(HEALTH)-pAmount));
+
+        return super.hurt(pSource, pAmount);
+    }
+
+    @Override
+    protected void playStepSound(BlockPos pPos, BlockState pBlock) {
+        this.playSound(SoundRegistry.DRILL.get(), Config.vol, Config.pitch);
+    }
+
+    @Override
+    protected void removePassenger(Entity pPassenger) {
+        super.removePassenger(pPassenger);
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "controller", 1, this::predicate));
+
+    }
+
+
+
+
+
+
+
+
+    protected <E extends GeoAnimatable> PlayState predicate(AnimationState<E> event) {
+        if (this.xo != this.getX() || this.zo != this.getZ() || this.yRotO != this.getYRot()) {
+            event.getController().setAnimation(RawAnimation.begin().then("drill", Animation.LoopType.LOOP));
+            return PlayState.CONTINUE;
+        }
+        return PlayState.STOP;
+    }
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return cache;
+    }
+
+
+    @org.jetbrains.annotations.Nullable
+    @Override
+    public LivingEntity getControllingPassenger() {
+        return this.getPassengers().isEmpty() ? null : (LivingEntity) this.getPassengers().get(0);
+    }
 
     @Override
     protected Vec3 getRelativePortalPosition(Direction.Axis pAxis, BlockUtil.FoundRectangle pPortal) {
@@ -923,9 +1018,9 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
 
 
 
-        @Nullable
-        @Override
-        public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
-            return new DrillContainer(pContainerId, pPlayerInventory, this);
-        }
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
+        return new DrillContainer(pContainerId, pPlayerInventory, this);
+    }
 }

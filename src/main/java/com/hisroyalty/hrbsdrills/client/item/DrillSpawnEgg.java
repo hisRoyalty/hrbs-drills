@@ -98,7 +98,7 @@ public class DrillSpawnEgg extends Item {
         CompoundTag entityTag = pStack.getTagElement("Compound");
 
         if (entityTag != null) {
-            if (entityTag.contains("netherite")) {
+            if (entityTag.get("netherite").equals(true)) {
                     pTooltipComponents.add(Component.literal("Netherite").withStyle(ChatFormatting.LIGHT_PURPLE));
             }
 

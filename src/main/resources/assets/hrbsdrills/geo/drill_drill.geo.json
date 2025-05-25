@@ -1,0 +1,73 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.unknown",
+				"texture_width": 144,
+				"texture_height": 144,
+				"visible_bounds_width": 7,
+				"visible_bounds_height": 4.5,
+				"visible_bounds_offset": [0, 1.75, 0]
+			},
+			"bones": [
+				{
+					"name": "dril4",
+					"pivot": [-22, 0, -6],
+					"rotation": [0, -37.5, 0]
+				},
+				{
+					"name": "dril",
+					"parent": "dril4",
+					"pivot": [-6.46964, 33.9, -36.88659],
+					"rotation": [0, 37.5, 0]
+				},
+				{
+					"name": "dril2",
+					"parent": "dril",
+					"pivot": [-14.28476, 34.2, -37.22215],
+					"rotation": [-180, 0, 180],
+					"cubes": [
+						{"origin": [-18.32642, 31.7, -46.88882], "size": [8, 5, 16], "uv": [80, 0]},
+						{"origin": [-10.10142, 29.7, -40.88882], "size": [0, 9, 9], "uv": [0, 90]},
+						{"origin": [-18.42642, 29.7, -40.88882], "size": [0, 9, 9], "uv": [18, 90]}
+					]
+				},
+				{
+					"name": "dril3",
+					"parent": "dril",
+					"pivot": [-13.58366, 34.55116, -56.86578],
+					"cubes": [
+						{"origin": [-30.25609, 23.8618, -46.8623], "size": [34, 21, 6], "pivot": [-14.30559, 34.47026, -53.91655], "rotation": [0, 0, 0], "uv": [0, 0]},
+						{"origin": [-26.25609, 23.8618, -62.4623], "size": [26, 21, 11], "pivot": [-14.30559, 34.47026, -53.91655], "rotation": [0, 0, 0], "uv": [0, 58]},
+						{"origin": [-24.25609, 26.8618, -70.1623], "size": [22, 15, 16], "pivot": [-14.30559, 34.47026, -53.91655], "rotation": [0, 0, 0], "uv": [0, 27]},
+						{"origin": [-28.91123, 21.74053, -51.95261], "size": [30, 26, 5], "pivot": [-14.30559, 34.47026, -53.91655], "rotation": [0, 0, 0], "uv": [74, 58]},
+						{"origin": [-27.91123, 22.74053, -58.97761], "size": [28, 24, 5], "pivot": [-14.30559, 34.47026, -53.91655], "rotation": [0, 0, 0], "uv": [76, 27]},
+						{"origin": [-17.91123, 30.74053, -74.77761], "size": [8, 8, 5], "pivot": [-14.30559, 34.47026, -53.91655], "rotation": [0, 0, 0], "uv": [74, 89]}
+					]
+				},
+				{
+					"name": "eff",
+					"parent": "dril4",
+					"pivot": [-22, 23, -45]
+				},
+				{
+					"name": "locator_fire1",
+					"parent": "eff",
+					"pivot": [-22, 34.925, -27.9],
+					"locators": {
+						"farelocator": [-22, 34.925, -27.9]
+					}
+				},
+				{
+					"name": "locator2_fire2",
+					"parent": "dril4",
+					"pivot": [-22, 23, -45],
+					"locators": {
+						"farelocator2": [-22, 23, -45]
+					}
+				}
+			]
+		}
+	]
+}

@@ -8,31 +8,25 @@ import software.bernie.geckolib.model.GeoModel;
 
 public class DrillEntityModel extends GeoModel<DrillEntity> {
     public ResourceLocation getModelResource(DrillEntity object) {
-        if (object.getNetherite()) {
-            return new ResourceLocation(DrillsMod.MODID, "geo/netherite1.geo.json");
-        }
-        return new ResourceLocation(DrillsMod.MODID, "geo/drill.geo_1.json");
+        return new ResourceLocation(DrillsMod.MODID, "geo/drill_base.json");
     }
 
     public ResourceLocation getTextureResource(DrillEntity object) {
         if (object.getNetherite()) {
-            return new ResourceLocation(DrillsMod.MODID, "textures/entity/netherite1.png");
+            return new ResourceLocation(DrillsMod.MODID, "textures/entity/netherite_new.png");
         }
-        return new ResourceLocation(DrillsMod.MODID, "textures/entity/drill.png");
+        return new ResourceLocation(DrillsMod.MODID, "textures/entity/drill_base.png");
     }
 
     public ResourceLocation getAnimationResource(DrillEntity animatable) {
-        if (animatable.getNetherite()) {
-            return new ResourceLocation(DrillsMod.MODID, "animations/netherite.json");
-        }
-        return new ResourceLocation(DrillsMod.MODID, "animations/drill.json");
+        return new ResourceLocation(DrillsMod.MODID, "animations/drill2.json");
     }
 
 
     @Override
     public void setCustomAnimations(DrillEntity animatable, long instanceId, software.bernie.geckolib.core.animation.AnimationState<DrillEntity> animationState) {
         super.setCustomAnimations(animatable, instanceId, animationState);
-        CoreGeoBone main = this.getAnimationProcessor().getBone("bone3");
+        CoreGeoBone main = this.getAnimationProcessor().getBone("main");
         if (animatable.hasControllingPassenger()) {
             if (animatable.isVehicle()) {
                 main.setRotY((float) -Math.toRadians(animatable.getYRot()));
@@ -41,4 +35,6 @@ public class DrillEntityModel extends GeoModel<DrillEntity> {
             main.setRotY((float) -Math.toRadians(animatable.getYRot()));
         }
     }
+
+
 }

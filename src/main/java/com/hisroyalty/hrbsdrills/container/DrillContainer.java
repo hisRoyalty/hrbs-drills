@@ -53,7 +53,7 @@ public class DrillContainer extends AbstractContainerMenu {
                 SlotItemHandler slot1 = new SlotItemHandler(iItemHandler, 0, 26, 8 + yOffset) {
                     @Override
                     public boolean mayPlace(@Nonnull ItemStack stack) {
-                        return stack.getItem().equals(Items.WATER_BUCKET);
+                        return stack.getItem().equals(Items.WATER_BUCKET) || stack.getItem().equals(Items.ICE) || stack.getItem().equals(Items.PACKED_ICE) || stack.getItem().equals(Items.BLUE_ICE);
                     }
                 };
 
@@ -97,7 +97,7 @@ public class DrillContainer extends AbstractContainerMenu {
     private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
 
     // THIS YOU HAVE TO DEFINE!
-    private static final int TE_INVENTORY_SLOT_COUNT = 2;  // must be the number of slots you have!
+    private static final int TE_INVENTORY_SLOT_COUNT = 3;  // must be the number of slots you have!
     @Override
     public ItemStack quickMoveStack(Player playerIn, int pIndex) {
         Slot sourceSlot = slots.get(pIndex);

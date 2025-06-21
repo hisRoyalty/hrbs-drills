@@ -612,6 +612,10 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
                     itemHandler.setStackInSlot(0, new ItemStack(Items.BUCKET));
                     setWProgress(8000);
                     setMaxWProgress(8000);
+                } else if (waterStack.is(Items.ICE)) {
+                    itemHandler.setStackInSlot(0, ItemStack.EMPTY);
+                    setWProgress(8000);
+                    setMaxWProgress(8000);
                 }
             }
                 if (getProgress() > 0) {

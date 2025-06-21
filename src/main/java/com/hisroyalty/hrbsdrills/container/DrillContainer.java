@@ -37,11 +37,16 @@ public class DrillContainer extends AbstractContainerMenu {
     private void initSlots(Inventory playerInventory) {
         int yOffset = 0;
 
+        for (int k = 0; k < 9; ++k) {
+            addSlot(new Slot(playerInventory, k, 8 + k * 18, 134 + yOffset));
+        }
+
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
                 addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 76 + i * 18 + yOffset));
             }
         }
+
         if (this.drillEntity != null) {
             this.drillEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
                 SlotItemHandler slot1 = new SlotItemHandler(iItemHandler, 0, 26, 8 + yOffset) {
@@ -69,11 +74,8 @@ public class DrillContainer extends AbstractContainerMenu {
                 this.addSlot(slot);
             });
         }
-
-        for (int k = 0; k < 9; ++k) {
-            addSlot(new Slot(playerInventory, k, 8 + k * 18, 134 + yOffset));
-        }
     }
+
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
     // must assign a slot number to each of the slots used by the GUI.

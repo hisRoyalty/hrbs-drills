@@ -9,7 +9,6 @@ import com.hisroyalty.hrbsdrills.upgrade.tree.TreeProcessor;
 import net.minecraft.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -32,7 +31,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -131,7 +129,7 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
 
 
         @Override
-        public InteractionResult interactAt(Player player, Vec3 hitPos, InteractionHand hand) {
+        public InteractionResult interactAt(Player player, @NotNull Vec3 hitPos, @NotNull InteractionHand hand) {
             ItemStack itemstack = player.getItemInHand(hand);
             if (addUpgrade(player, itemstack)) {
                 return InteractionResult.SUCCESS;

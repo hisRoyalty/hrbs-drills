@@ -3,24 +3,18 @@ package com.hisroyalty.hrbsdrills.container;
 import com.hisroyalty.hrbsdrills.DrillContainers;
 import com.hisroyalty.hrbsdrills.DrillsMod;
 import com.hisroyalty.hrbsdrills.entity.DrillEntity;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
-import static com.hisroyalty.hrbsdrills.DrillsMod.ITEMS;
 
 
 public class DrillContainer extends AbstractContainerMenu {
@@ -41,7 +35,7 @@ public class DrillContainer extends AbstractContainerMenu {
     }
 
     private void initSlots(Inventory playerInventory) {
-        int yOffset = hasChest(drillEntity) ? 0 : 0;
+        int yOffset = 0;
 
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {

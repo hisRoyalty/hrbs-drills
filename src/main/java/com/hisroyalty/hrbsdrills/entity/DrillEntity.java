@@ -288,11 +288,10 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
 
 
     private boolean isBreakableBlock(BlockState blockstate) {
-        if (this.hasDrillHead()) {
-            return blockstate.is(BlockTags.MINEABLE_WITH_PICKAXE) || blockstate.is(BlockTags.MINEABLE_WITH_SHOVEL);
-        } else if (this.hasSawDrillHead()) {
-            // Allow both logs and leaves for tree processing
+        if (this.hasSawDrillHead()) {
             return blockstate.is(BlockTags.LEAVES) || blockstate.is(BlockTags.LOGS);
+        } else if (this.hasDrillHead()) {
+            return blockstate.is(BlockTags.MINEABLE_WITH_PICKAXE) || blockstate.is(BlockTags.MINEABLE_WITH_SHOVEL);
         }
         return false;
     }
@@ -309,7 +308,7 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
             BlockPos.betweenClosedStream(box).forEach(blockPos -> {
 
                 BlockState blockstate = this.level().getBlockState(blockPos);
-                if (this.hasSawDrillHead() && isBreakableBlock(blockstate)) {
+                if (this.hasSawDrillHead()) {
                     TreeProcessor processor = new TreeProcessor(level());
 
                     Set<BlockPos> treeBlocks = processor.gatherTree(blockPos);
@@ -317,9 +316,6 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
                     if (!treeBlocks.isEmpty()) {
                         processor.processTree(treeBlocks, true, this);
                     }
-
-
-
                 }
                 else if (isBreakableBlock(blockstate) && blockstate.canOcclude()) {
                     this.level().destroyBlock(blockPos, Config.DROP_BLOCK.get(), this);
@@ -671,11 +667,8 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
                 timeInVehicle++;
             }
 
-            if (this.hasDrillHead()) {
+            if (this.hasDrillHead() || this.hasSawDrillHead()) {
                 destroyBlocks(this.getBoundingBox());
-            } else if (this.hasSawDrillHead()) {
-                AABB box = this.getBoundingBox().inflate(6, MAX_TREE_HEIGHT, 0);
-                destroyBlocks(box);
             }
 
         }
@@ -712,50 +705,7 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
         }
 
 
-    public boolean isTree(BlockPos startBlock) {
-        Set<BlockPos> checkedBlocks = new HashSet<>();
-        Queue<BlockPos> blocksToCheck = new LinkedList<>();
-        blocksToCheck.add(startBlock);
 
-        int logCount = 0;
-        int leafCount = 0;
-
-        while (!blocksToCheck.isEmpty()) {
-            BlockPos currentPos = blocksToCheck.poll();
-            if (checkedBlocks.contains(currentPos)) continue;
-
-            BlockState currentBlock = level().getBlockState(currentPos);
-
-            if (isLog(currentBlock)) {
-                logCount++;
-                blocksToCheck.addAll(getAdjacentBlocks(currentPos));
-            } else if (isLeaf(currentBlock)) {
-                leafCount++;
-            }
-
-            checkedBlocks.add(currentPos);
-
-            // Stop if we've exceeded a reasonable tree size
-            if (logCount > 8 || checkedBlocks.size() > 40) {
-                return false;
-            }
-        }
-
-        // Validate tree based on logs, leaves, and other criteria
-        return logCount >= 2 && leafCount >= 8;
-    }
-
-    private List<BlockPos> getAdjacentBlocks(BlockPos pos) {
-        return List.of(pos.above(), pos.below(), pos.north(), pos.south(), pos.east(), pos.west());
-    }
-
-    private boolean isLog(BlockState block) {
-        return block.is(BlockTags.LOGS);
-    }
-
-    private boolean isLeaf(BlockState block) {
-        return block.is(BlockTags.LEAVES);
-    }
 
     public boolean hasDrillHead() {
         return this.entityData.get(HAS_DRILL_HEAD);

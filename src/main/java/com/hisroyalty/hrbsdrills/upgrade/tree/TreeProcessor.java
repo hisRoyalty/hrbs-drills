@@ -16,9 +16,7 @@ import java.util.Set;
 
 public class TreeProcessor {
     public static final int MAX_TREE_HEIGHT = 32;
-    private static final int MAX_LEAVES_DISTANCE = 12;
     private static final Direction[] DIRECTIONS = Direction.values();
-
     private final LevelAccessor level;
 
     public TreeProcessor(LevelAccessor level) {
@@ -26,16 +24,11 @@ public class TreeProcessor {
     }
 
     public Set<BlockPos> gatherTree(BlockPos startPos) {
-        Set<BlockPos> logs = gatherLogs(startPos);
-        Set<BlockPos> leaves = gatherLeaves(logs);
-
-        // Combine logs and leaves into a single tree structure
-        logs.addAll(leaves);
-        return logs;
+        return gatherLogs(startPos);
     }
 
     private Set<BlockPos> gatherLogs(BlockPos startPos) {
-        Set<BlockPos> logs = new HashSet<>();
+        Set<BlockPos> blocks = new HashSet<>();
         Queue<BlockPos> toProcess = new LinkedList<>();
         Set<BlockPos> processed = new HashSet<>();
 
@@ -45,66 +38,27 @@ public class TreeProcessor {
         while (!toProcess.isEmpty()) {
             BlockPos current = toProcess.poll();
 
-            if (processed.contains(current) || !isLog(level.getBlockState(current), initialState)) {
+            if (processed.contains(current) || !isTree(level.getBlockState(current), initialState)) {
                 continue;
             }
 
-            logs.add(current);
+            blocks.add(current);
             processed.add(current);
 
             for (Direction dir : DIRECTIONS) {
                 BlockPos neighbor = current.relative(dir);
-                if (neighbor.getY() >= startPos.getY() && logs.size() < MAX_TREE_HEIGHT) {
+                if (neighbor.getY() >= startPos.getY() && blocks.size() < MAX_TREE_HEIGHT) {
                     toProcess.add(neighbor);
                 }
             }
         }
 
-        return logs;
+        return blocks;
     }
 
-    private Set<BlockPos> gatherLeaves(Set<BlockPos> logs) {
-        Set<BlockPos> leaves = new HashSet<>();
-        Set<BlockPos> processed = new HashSet<>();
-        Queue<BlockPos> toProcess = new LinkedList<>();
-
-        for (BlockPos log : logs) {
-            for (Direction dir : DIRECTIONS) {
-                BlockPos leafPos = log.relative(dir);
-                if (isLeaf(level.getBlockState(leafPos))) {
-                    toProcess.add(leafPos);
-                }
-            }
-        }
-
-        while (!toProcess.isEmpty()) {
-            BlockPos current = toProcess.poll();
-            if (processed.contains(current) || leaves.size() >= MAX_LEAVES_DISTANCE) {
-                continue;
-            }
-
-            leaves.add(current);
-            processed.add(current);
-
-            for (Direction dir : DIRECTIONS) {
-                BlockPos neighbor = current.relative(dir);
-                if (!processed.contains(neighbor) && isLeaf(level.getBlockState(neighbor))) {
-                    toProcess.add(neighbor);
-                }
-            }
-        }
-
-        return leaves;
-    }
-
-    private boolean isLog(BlockState state, BlockState initialState) {
-        return state.is(BlockTags.LOGS) && state.getBlock() == initialState.getBlock();
-    }
-
-    private boolean isLeaf(BlockState state) {
-        return state.is(BlockTags.LEAVES) &&
-                (!state.hasProperty(BlockStateProperties.PERSISTENT) ||
-                        !state.getValue(BlockStateProperties.PERSISTENT));
+    private boolean isTree(BlockState state, BlockState initialState) {
+        return (state.is(BlockTags.LOGS) || state.is(BlockTags.LEAVES))
+                && (initialState.is(BlockTags.LOGS) || state.is(BlockTags.LEAVES));
     }
 
     public void processTree(Set<BlockPos> treeBlocks, boolean dropItems, @Nullable Entity breaker) {

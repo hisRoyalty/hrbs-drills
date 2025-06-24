@@ -6,7 +6,7 @@
 				"identifier": "geometry.unknown",
 				"texture_width": 304,
 				"texture_height": 304,
-				"visible_bounds_width": 8,
+				"visible_bounds_width": 9,
 				"visible_bounds_height": 4.5,
 				"visible_bounds_offset": [0, 1.75, 0]
 			},
@@ -53,8 +53,8 @@
 					"parent": "main",
 					"pivot": [0.75049, 25.16063, -10.90746],
 					"cubes": [
-						{"origin": [-25.4495, 9.79685, -28.55833], "size": [17, 11, 56], "pivot": [0.8005, 29.08088, 8.40119], "rotation": [0, 0, 0], "uv": [0, 67]},
-						{"origin": [-22.4495, 0.18957, -26.8039], "size": [13, 11, 54], "pivot": [0.8005, 29.08088, 8.40119], "rotation": [0, 0, 0], "uv": [134, 134]}
+						{"origin": [-25.4495, 9.79685, -28.55833], "size": [17, 11, 56], "uv": [0, 67]},
+						{"origin": [-22.4495, 0.18957, -26.8039], "size": [13, 11, 54], "uv": [134, 134]}
 					]
 				},
 				{
@@ -72,7 +72,7 @@
 					"parent": "dirllStraight2",
 					"pivot": [18.45049, 18.49685, -4.85833],
 					"cubes": [
-						{"origin": [9.95049, 9.79685, -28.55833], "size": [17, 11, 56], "pivot": [0.8005, 29.08088, 8.40119], "rotation": [0, 0, 0], "uv": [0, 67], "mirror": true}
+						{"origin": [9.95049, 9.79685, -28.55833], "size": [17, 11, 56], "uv": [0, 67], "mirror": true}
 					]
 				},
 				{
@@ -80,7 +80,7 @@
 					"parent": "dirllStraight2",
 					"pivot": [0.75049, 25.16063, -10.90746],
 					"cubes": [
-						{"origin": [10.95049, 0.18957, -26.8039], "size": [13, 11, 54], "pivot": [0.8005, 29.08088, 8.40119], "rotation": [0, 0, 0], "uv": [0, 134]}
+						{"origin": [10.95049, 0.18957, -26.8039], "size": [13, 11, 54], "uv": [0, 134]}
 					]
 				},
 				{
@@ -921,6 +921,634 @@
 					"name": "locator8",
 					"parent": "eff2",
 					"pivot": [-0.25, 22.625, -69.45]
+				},
+				{
+					"name": "sawdrill",
+					"parent": "main",
+					"pivot": [0, 21.7, -53.4],
+					"cubes": [
+						{"origin": [-15.05982, 15.3, -35.23777], "size": [32, 23, 6], "uv": [98, 59]}
+					]
+				},
+				{
+					"name": "Lumberjack91",
+					"parent": "sawdrill",
+					"pivot": [0, 21.7, -53.4]
+				},
+				{
+					"name": "Lumberjack92",
+					"parent": "Lumberjack91",
+					"pivot": [1.75049, 65.8, -103.11516],
+					"cubes": [
+						{"origin": [13.05049, 41.3, -47.11516], "size": [0, 3, 6], "uv": [120, 131]}
+					]
+				},
+				{
+					"name": "Lumberjack93",
+					"parent": "Lumberjack91",
+					"pivot": [1.75049, 65.8, -94.11516],
+					"cubes": [
+						{"origin": [13.05049, 41.3, -38.11516], "size": [0, 3, 6], "uv": [132, 122]}
+					]
+				},
+				{
+					"name": "Lumberjack94",
+					"parent": "Lumberjack91",
+					"pivot": [1.75049, 65.8, -120.11516],
+					"cubes": [
+						{"origin": [13.05049, 41.3, -64.11516], "size": [0, 3, 6], "uv": [132, 131]}
+					]
+				},
+				{
+					"name": "Lumberjack95",
+					"parent": "Lumberjack91",
+					"pivot": [1.75049, 51.3, -133.61516],
+					"cubes": [
+						{"origin": [13.05049, 27.3, -86.11516], "size": [0, 3, 6], "pivot": [13.05049, 32.8, -78.61516], "rotation": [90, 0, 0], "uv": [134, 113]}
+					]
+				},
+				{
+					"name": "Lumberjack96",
+					"parent": "Lumberjack91",
+					"pivot": [1.75049, 60.3, -133.61516],
+					"cubes": [
+						{"origin": [13.05049, 27.3, -77.11516], "size": [0, 3, 6], "pivot": [13.05049, 32.8, -78.61516], "rotation": [90, 0, 0], "uv": [0, 136]}
+					]
+				},
+				{
+					"name": "Lumberjack97",
+					"parent": "Lumberjack91",
+					"pivot": [13.05049, 42.8, -70.11516],
+					"cubes": [
+						{"origin": [13.05049, 41.3, -73.11516], "size": [0, 3, 6], "uv": [12, 136]}
+					]
+				},
+				{
+					"name": "Lumberjack98",
+					"parent": "Lumberjack91",
+					"pivot": [13.05049, 21.8, -70.11516],
+					"cubes": [
+						{"origin": [13.05049, 10.3, -38.11516], "size": [0, 3, 6], "pivot": [13.05049, 16.8, -52.61516], "rotation": [180, 0, 0], "uv": [24, 136]}
+					]
+				},
+				{
+					"name": "Lumberjack99",
+					"parent": "Lumberjack91",
+					"pivot": [1.75049, 44.8, -120.11516],
+					"cubes": [
+						{"origin": [13.05049, 10.3, -47.11516], "size": [0, 3, 6], "pivot": [13.05049, 16.8, -52.61516], "rotation": [180, 0, 0], "uv": [36, 136]}
+					]
+				},
+				{
+					"name": "Lumberjack100",
+					"parent": "Lumberjack91",
+					"pivot": [1.75049, 44.8, -112.11516],
+					"cubes": [
+						{"origin": [13.05049, 10.3, -55.11516], "size": [0, 3, 6], "pivot": [13.05049, 16.8, -52.61516], "rotation": [180, 0, 0], "uv": [48, 136]}
+					]
+				},
+				{
+					"name": "Lumberjack101",
+					"parent": "Lumberjack91",
+					"pivot": [1.75049, 44.8, -103.11516],
+					"cubes": [
+						{"origin": [13.05049, 10.3, -64.11516], "size": [0, 3, 6], "pivot": [13.05049, 16.8, -52.61516], "rotation": [180, 0, 0], "uv": [60, 136]}
+					]
+				},
+				{
+					"name": "Lumberjack102",
+					"parent": "Lumberjack91",
+					"pivot": [1.75049, 44.8, -94.11516],
+					"cubes": [
+						{"origin": [13.05049, 10.3, -73.11516], "size": [0, 3, 6], "pivot": [13.05049, 16.8, -52.61516], "rotation": [180, 0, 0], "uv": [72, 136]}
+					]
+				},
+				{
+					"name": "Lumberjack103",
+					"parent": "Lumberjack91",
+					"pivot": [1.75049, 65.8, -111.11516],
+					"cubes": [
+						{"origin": [13.05049, 41.3, -55.11516], "size": [0, 3, 6], "uv": [84, 136]}
+					]
+				},
+				{
+					"name": "Lumberjack104",
+					"parent": "Lumberjack91",
+					"pivot": [1.75049, 55.3, -111.61516],
+					"cubes": [
+						{"origin": [9.05049, 23.3, -73.11516], "size": [8, 18, 41], "uv": [98, 0]}
+					]
+				},
+				{
+					"name": "Lumberjack105",
+					"parent": "sawdrill",
+					"pivot": [0.25049, 54.8, -91.11516]
+				},
+				{
+					"name": "Lumberjack106",
+					"parent": "Lumberjack105",
+					"pivot": [0.25049, 65.8, -103.11516],
+					"cubes": [
+						{"origin": [0.25049, 41.3, -47.11516], "size": [0, 3, 6], "uv": [122, 113]}
+					]
+				},
+				{
+					"name": "Lumberjack107",
+					"parent": "Lumberjack105",
+					"pivot": [0.25049, 65.8, -94.11516],
+					"cubes": [
+						{"origin": [0.25049, 41.3, -38.11516], "size": [0, 3, 6], "uv": [120, 122]}
+					]
+				},
+				{
+					"name": "Lumberjack108",
+					"parent": "Lumberjack105",
+					"pivot": [0.25049, 65.8, -120.11516],
+					"cubes": [
+						{"origin": [0.25049, 41.3, -64.11516], "size": [0, 3, 6], "uv": [0, 127]}
+					]
+				},
+				{
+					"name": "Lumberjack109",
+					"parent": "Lumberjack105",
+					"pivot": [0.25049, 51.3, -133.61516],
+					"cubes": [
+						{"origin": [0.25049, 27.3, -86.11516], "size": [0, 3, 6], "pivot": [0.25049, 32.8, -78.61516], "rotation": [90, 0, 0], "uv": [12, 127]}
+					]
+				},
+				{
+					"name": "Lumberjack110",
+					"parent": "Lumberjack105",
+					"pivot": [0.25049, 60.3, -133.61516],
+					"cubes": [
+						{"origin": [0.25049, 27.3, -77.11516], "size": [0, 3, 6], "pivot": [0.25049, 32.8, -78.61516], "rotation": [90, 0, 0], "uv": [24, 127]}
+					]
+				},
+				{
+					"name": "Lumberjack111",
+					"parent": "Lumberjack105",
+					"pivot": [0.25049, 42.8, -70.11516],
+					"cubes": [
+						{"origin": [0.25049, 41.3, -73.11516], "size": [0, 3, 6], "uv": [36, 127]}
+					]
+				},
+				{
+					"name": "Lumberjack112",
+					"parent": "Lumberjack105",
+					"pivot": [0.25049, 21.8, -70.11516],
+					"cubes": [
+						{"origin": [0.25049, 10.3, -38.11516], "size": [0, 3, 6], "pivot": [0.25049, 16.8, -52.61516], "rotation": [180, 0, 0], "uv": [48, 127]}
+					]
+				},
+				{
+					"name": "Lumberjack113",
+					"parent": "Lumberjack105",
+					"pivot": [0.25049, 44.8, -120.11516],
+					"cubes": [
+						{"origin": [0.25049, 10.3, -47.11516], "size": [0, 3, 6], "pivot": [0.25049, 16.8, -52.61516], "rotation": [180, 0, 0], "uv": [60, 127]}
+					]
+				},
+				{
+					"name": "Lumberjack114",
+					"parent": "Lumberjack105",
+					"pivot": [0.25049, 44.8, -112.11516],
+					"cubes": [
+						{"origin": [0.25049, 10.3, -55.11516], "size": [0, 3, 6], "pivot": [0.25049, 16.8, -52.61516], "rotation": [180, 0, 0], "uv": [72, 127]}
+					]
+				},
+				{
+					"name": "Lumberjack115",
+					"parent": "Lumberjack105",
+					"pivot": [0.25049, 44.8, -103.11516],
+					"cubes": [
+						{"origin": [0.25049, 10.3, -64.11516], "size": [0, 3, 6], "pivot": [0.25049, 16.8, -52.61516], "rotation": [180, 0, 0], "uv": [84, 127]}
+					]
+				},
+				{
+					"name": "Lumberjack116",
+					"parent": "Lumberjack105",
+					"pivot": [0.25049, 44.8, -94.11516],
+					"cubes": [
+						{"origin": [0.25049, 10.3, -73.11516], "size": [0, 3, 6], "pivot": [0.25049, 16.8, -52.61516], "rotation": [180, 0, 0], "uv": [96, 131]}
+					]
+				},
+				{
+					"name": "Lumberjack117",
+					"parent": "Lumberjack105",
+					"pivot": [0.25049, 65.8, -111.11516],
+					"cubes": [
+						{"origin": [0.25049, 41.3, -55.11516], "size": [0, 3, 6], "uv": [108, 131]}
+					]
+				},
+				{
+					"name": "Lumberjack118",
+					"parent": "Lumberjack105",
+					"pivot": [0.25049, 32.3, -52.61516],
+					"cubes": [
+						{"origin": [-3.74951, 23.3, -73.11516], "size": [8, 18, 41], "uv": [0, 59]}
+					]
+				},
+				{
+					"name": "Lumberjack119",
+					"parent": "sawdrill",
+					"pivot": [1.08383, 55.05, -89.36516]
+				},
+				{
+					"name": "Lumberjack120",
+					"parent": "Lumberjack119",
+					"pivot": [-11.24951, 54.8, -91.11516]
+				},
+				{
+					"name": "Lumberjack121",
+					"parent": "Lumberjack120",
+					"pivot": [-11.24951, 65.8, -103.11516],
+					"cubes": [
+						{"origin": [-11.24951, 41.3, -47.11516], "size": [0, 3, 6], "uv": [98, 113]}
+					]
+				},
+				{
+					"name": "Lumberjack122",
+					"parent": "Lumberjack120",
+					"pivot": [-11.24951, 65.8, -94.11516],
+					"cubes": [
+						{"origin": [-11.24951, 41.3, -38.11516], "size": [0, 3, 6], "uv": [110, 113]}
+					]
+				},
+				{
+					"name": "Lumberjack123",
+					"parent": "Lumberjack120",
+					"pivot": [-11.24951, 65.8, -120.11516],
+					"cubes": [
+						{"origin": [-11.24951, 41.3, -64.11516], "size": [0, 3, 6], "uv": [12, 118]}
+					]
+				},
+				{
+					"name": "Lumberjack124",
+					"parent": "Lumberjack120",
+					"pivot": [-11.24951, 51.3, -133.61516],
+					"cubes": [
+						{"origin": [-11.24951, 27.3, -86.11516], "size": [0, 3, 6], "pivot": [-11.24951, 32.8, -78.61516], "rotation": [90, 0, 0], "uv": [108, 122]}
+					]
+				},
+				{
+					"name": "Lumberjack125",
+					"parent": "Lumberjack120",
+					"pivot": [-11.24951, 60.3, -133.61516],
+					"cubes": [
+						{"origin": [-11.24951, 27.3, -77.11516], "size": [0, 3, 6], "pivot": [-11.24951, 32.8, -78.61516], "rotation": [90, 0, 0], "uv": [96, 122]}
+					]
+				},
+				{
+					"name": "Lumberjack126",
+					"parent": "Lumberjack120",
+					"pivot": [-11.24951, 42.8, -70.11516],
+					"cubes": [
+						{"origin": [-11.24951, 41.3, -73.11516], "size": [0, 3, 6], "uv": [24, 118]}
+					]
+				},
+				{
+					"name": "Lumberjack127",
+					"parent": "Lumberjack120",
+					"pivot": [-11.24951, 21.8, -70.11516],
+					"cubes": [
+						{"origin": [-11.24951, 10.3, -38.11516], "size": [0, 3, 6], "pivot": [-11.24951, 16.8, -52.61516], "rotation": [180, 0, 0], "uv": [84, 118]}
+					]
+				},
+				{
+					"name": "Lumberjack128",
+					"parent": "Lumberjack120",
+					"pivot": [-11.24951, 44.8, -120.11516],
+					"cubes": [
+						{"origin": [-11.24951, 10.3, -47.11516], "size": [0, 3, 6], "pivot": [-11.24951, 16.8, -52.61516], "rotation": [180, 0, 0], "uv": [72, 118]}
+					]
+				},
+				{
+					"name": "Lumberjack129",
+					"parent": "Lumberjack120",
+					"pivot": [-11.24951, 44.8, -112.11516],
+					"cubes": [
+						{"origin": [-11.24951, 10.3, -55.11516], "size": [0, 3, 6], "pivot": [-11.24951, 16.8, -52.61516], "rotation": [180, 0, 0], "uv": [60, 118]}
+					]
+				},
+				{
+					"name": "Lumberjack130",
+					"parent": "Lumberjack120",
+					"pivot": [-11.24951, 44.8, -103.11516],
+					"cubes": [
+						{"origin": [-11.24951, 10.3, -64.11516], "size": [0, 3, 6], "pivot": [-11.24951, 16.8, -52.61516], "rotation": [180, 0, 0], "uv": [48, 118]}
+					]
+				},
+				{
+					"name": "Lumberjack131",
+					"parent": "Lumberjack120",
+					"pivot": [-11.24951, 44.8, -94.11516],
+					"cubes": [
+						{"origin": [-11.24951, 10.3, -73.11516], "size": [0, 3, 6], "pivot": [-11.24951, 16.8, -52.61516], "rotation": [180, 0, 0], "uv": [36, 118]}
+					]
+				},
+				{
+					"name": "Lumberjack132",
+					"parent": "Lumberjack120",
+					"pivot": [-11.24951, 65.8, -111.11516],
+					"cubes": [
+						{"origin": [-11.24951, 41.3, -55.11516], "size": [0, 3, 6], "uv": [0, 118]}
+					]
+				},
+				{
+					"name": "Lumberjack133",
+					"parent": "Lumberjack120",
+					"pivot": [-11.24951, 55.3, -111.61516],
+					"cubes": [
+						{"origin": [-15.24951, 23.3, -73.11516], "size": [8, 18, 41], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "Lumberjack134",
+					"parent": "Lumberjack119",
+					"pivot": [-18.24951, 46.86063, -67.08246]
+				},
+				{
+					"name": "Lumberjack135",
+					"parent": "Lumberjack119",
+					"pivot": [-18.24951, 46.86063, -67.08246]
+				},
+				{
+					"name": "Lumberjack136",
+					"parent": "Lumberjack135",
+					"pivot": [-18.24951, 46.86063, -67.08246]
+				},
+				{
+					"name": "Lumberjack137",
+					"parent": "Lumberjack119",
+					"pivot": [-18.24951, 46.86063, -67.08246]
+				},
+				{
+					"name": "Lumberjack138",
+					"parent": "Lumberjack119",
+					"pivot": [1.08383, 55.05, -89.36516]
+				},
+				{
+					"name": "Lumberjack139",
+					"parent": "sawdrill",
+					"pivot": [24.18482, 49.6, -78.01277]
+				},
+				{
+					"name": "Lumberjack140",
+					"parent": "Lumberjack139",
+					"pivot": [24.18482, 49.6, -78.01277]
+				},
+				{
+					"name": "Lumberjack141",
+					"parent": "sawdrill",
+					"pivot": [0, 21.7, -53.4],
+					"rotation": [0, -37.5, 0]
+				},
+				{
+					"name": "Lumberjack142",
+					"parent": "Lumberjack141",
+					"pivot": [10.09241, 46.86063, -86.08256],
+					"rotation": [0, 37.5, 0],
+					"cubes": [
+						{"origin": [-34.05982, 24.3, -42.23777], "size": [34, 21, 4], "uv": [98, 88]}
+					]
+				},
+				{
+					"name": "Lumberjack143",
+					"parent": "Lumberjack142",
+					"pivot": [-17.05982, 55.8, -64.23777]
+				},
+				{
+					"name": "Lumberjack144",
+					"parent": "Lumberjack142",
+					"pivot": [-17.05982, 46.86063, -77.20507]
+				},
+				{
+					"name": "Lumberjack145",
+					"parent": "Lumberjack142",
+					"pivot": [-17.05982, 46.86063, -77.20507]
+				},
+				{
+					"name": "Lumberjack146",
+					"parent": "Lumberjack142",
+					"pivot": [-17.05982, 46.86063, -77.20507]
+				},
+				{
+					"name": "Lumberjack147",
+					"parent": "Lumberjack146",
+					"pivot": [-0.55982, 32.03654, -55.75548]
+				},
+				{
+					"name": "Lumberjack148",
+					"parent": "Lumberjack146",
+					"pivot": [-0.55982, 37.72307, -81.16895]
+				},
+				{
+					"name": "Lumberjack149",
+					"parent": "Lumberjack146",
+					"pivot": [0.64018, 40.19685, -71.15594]
+				},
+				{
+					"name": "Lumberjack150",
+					"parent": "Lumberjack146",
+					"pivot": [-17.05982, 46.86063, -77.20507]
+				},
+				{
+					"name": "Lumberjack151",
+					"parent": "Lumberjack146",
+					"pivot": [-33.55981, 30.71083, -42.21774]
+				},
+				{
+					"name": "Lumberjack152",
+					"parent": "Lumberjack146",
+					"pivot": [-33.55981, 32.03654, -55.75548]
+				},
+				{
+					"name": "Lumberjack153",
+					"parent": "Lumberjack146",
+					"pivot": [-33.55981, 32.03654, -55.75548]
+				},
+				{
+					"name": "Lumberjack154",
+					"parent": "Lumberjack146",
+					"pivot": [-33.55981, 29.41915, -98.74144]
+				},
+				{
+					"name": "Lumberjack155",
+					"parent": "Lumberjack146",
+					"pivot": [-33.75981, 23.58957, -74.90151]
+				},
+				{
+					"name": "Lumberjack156",
+					"parent": "Lumberjack146",
+					"pivot": [-17.05981, 45.64407, -79.1703]
+				},
+				{
+					"name": "Lumberjack157",
+					"parent": "Lumberjack146",
+					"pivot": [-17.05981, 45.64407, -79.1703]
+				},
+				{
+					"name": "Lumberjack158",
+					"parent": "Lumberjack146",
+					"pivot": [-33.75981, 23.67239, -94.80168]
+				},
+				{
+					"name": "Lumberjack159",
+					"parent": "Lumberjack146",
+					"pivot": [-0.35982, 23.58957, -74.90151]
+				},
+				{
+					"name": "Lumberjack160",
+					"parent": "Lumberjack146",
+					"pivot": [-0.35982, 23.7822, -56.10128]
+				},
+				{
+					"name": "Lumberjack161",
+					"parent": "Lumberjack146",
+					"pivot": [-0.35982, 23.8822, -66.10128]
+				},
+				{
+					"name": "Lumberjack162",
+					"parent": "Lumberjack146",
+					"pivot": [-0.35982, 30.91083, -41.91774]
+				},
+				{
+					"name": "Lumberjack163",
+					"parent": "Lumberjack146",
+					"pivot": [-0.35982, 23.5822, -46.10128]
+				},
+				{
+					"name": "Lumberjack164",
+					"parent": "Lumberjack146",
+					"pivot": [-0.35982, 30.31915, -98.74144]
+				},
+				{
+					"name": "Lumberjack165",
+					"parent": "Lumberjack146",
+					"pivot": [-0.55982, 23.20409, -98.04048]
+				},
+				{
+					"name": "Lumberjack166",
+					"parent": "Lumberjack146",
+					"pivot": [-0.35982, 23.58239, -84.98296]
+				},
+				{
+					"name": "Lumberjack167",
+					"parent": "Lumberjack146",
+					"pivot": [-17.05982, 46.86063, -77.20507]
+				},
+				{
+					"name": "Lumberjack168",
+					"parent": "Lumberjack142",
+					"pivot": [-17.05982, 61.8, -26.48777]
+				},
+				{
+					"name": "Lumberjack169",
+					"parent": "Lumberjack168",
+					"pivot": [-17.05982, 61.8, -37.48777]
+				},
+				{
+					"name": "Lumberjack170",
+					"parent": "Lumberjack169",
+					"pivot": [-17.05982, 61.8, -37.48777]
+				},
+				{
+					"name": "Lumberjack171",
+					"parent": "Lumberjack142",
+					"pivot": [-17.79137, 58.83868, -105.68997],
+					"rotation": [0, -37.5, 0]
+				},
+				{
+					"name": "Lumberjack172",
+					"parent": "Lumberjack171",
+					"pivot": [-26.91382, 59.57112, -120.60668]
+				},
+				{
+					"name": "Lumberjack173",
+					"parent": "Lumberjack171",
+					"pivot": [6.58264, 59.53868, -144.56036]
+				},
+				{
+					"name": "Lumberjack174",
+					"parent": "Lumberjack171",
+					"pivot": [6.58264, 59.53868, -144.56036]
+				},
+				{
+					"name": "Lumberjack175",
+					"parent": "Lumberjack171",
+					"pivot": [6.58264, 59.53868, -144.56036]
+				},
+				{
+					"name": "Lumberjack176",
+					"parent": "Lumberjack171",
+					"pivot": [6.58264, 59.53868, -144.56036]
+				},
+				{
+					"name": "Lumberjack177",
+					"parent": "Lumberjack171",
+					"pivot": [6.58264, 59.53868, -144.56036]
+				},
+				{
+					"name": "Lumberjack178",
+					"parent": "Lumberjack177",
+					"pivot": [-26.91382, 59.57112, -120.60668]
+				},
+				{
+					"name": "drill",
+					"parent": "main",
+					"pivot": [-22, 0, -6],
+					"rotation": [0, -37.5, 0]
+				},
+				{
+					"name": "dril",
+					"parent": "drill",
+					"pivot": [-6.46964, 33.9, -36.88659],
+					"rotation": [0, 37.5, 0]
+				},
+				{
+					"name": "dril2",
+					"parent": "dril",
+					"pivot": [-14.28476, 34.2, -37.22215],
+					"rotation": [-180, 0, 180],
+					"cubes": [
+						{"origin": [-18.32642, 31.7, -46.88882], "size": [8, 5, 16], "uv": [80, 0]},
+						{"origin": [-10.10142, 29.7, -40.88882], "size": [0, 9, 9], "uv": [0, 90]},
+						{"origin": [-18.42642, 29.7, -40.88882], "size": [0, 9, 9], "uv": [18, 90]}
+					]
+				},
+				{
+					"name": "dril3",
+					"parent": "dril",
+					"pivot": [-13.58366, 34.55116, -56.86578],
+					"cubes": [
+						{"origin": [-30.25609, 23.8618, -46.8623], "size": [34, 21, 6], "uv": [0, 0]},
+						{"origin": [-26.25609, 23.8618, -62.4623], "size": [26, 21, 11], "uv": [0, 58]},
+						{"origin": [-24.25609, 26.8618, -70.1623], "size": [22, 15, 16], "uv": [0, 27]},
+						{"origin": [-28.91123, 21.74053, -51.95261], "size": [30, 26, 5], "uv": [74, 58]},
+						{"origin": [-27.91123, 22.74053, -58.97761], "size": [28, 24, 5], "uv": [76, 27]},
+						{"origin": [-17.91123, 30.74053, -74.77761], "size": [8, 8, 5], "uv": [74, 89]}
+					]
+				},
+				{
+					"name": "eff",
+					"parent": "drill",
+					"pivot": [-22, 23, -45]
+				},
+				{
+					"name": "locator_fire1",
+					"parent": "eff",
+					"pivot": [-22, 34.925, -27.9],
+					"locators": {
+						"farelocator": [-22, 34.925, -27.9]
+					}
+				},
+				{
+					"name": "locator2_fire2",
+					"parent": "drill",
+					"pivot": [-22, 23, -45],
+					"locators": {
+						"farelocator2": [-22, 23, -45]
+					}
 				}
 			]
 		}

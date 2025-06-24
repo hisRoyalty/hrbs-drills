@@ -1,10 +1,6 @@
 package com.hisroyalty.hrbsdrills.entity.render;
 
-import com.hisroyalty.hrbsdrills.DrillsMod;
 import com.hisroyalty.hrbsdrills.entity.DrillEntity;
-import com.hisroyalty.hrbsdrills.upgrade.model.DrillModel;
-import com.hisroyalty.hrbsdrills.upgrade.model.SawDrillModel;
-import com.hisroyalty.hrbsdrills.upgrade.model.Stowage;
 import com.hisroyalty.hrbsdrills.upgrade.model.StowageModel;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -13,7 +9,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 public class DrillEntityRenderer extends GeoEntityRenderer<DrillEntity> {
@@ -45,41 +40,6 @@ public class DrillEntityRenderer extends GeoEntityRenderer<DrillEntity> {
             reRender(model.getBakedModel(modelResource), poseStack, bufferSource, entity, renderType1, bufferSource.getBuffer(renderType1), partialTick, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
 
             poseStack.popPose();
-        }
-        ItemStack stack = entity.getItemHandler().getStackInSlot(2);
-
-        if (entity.hasDrillHead()) {
-            DrillModel model = new DrillModel();
-            ResourceLocation modelResource = model.getModelResource(entity);
-            RenderType renderType1 = RenderType.entityCutout(model.getTextureResource(entity));
-
-            float yaw = -entity.getYRot();
-            float pitch = entity.getXRot();
-
-            poseStack.pushPose();
-            poseStack.mulPose(Axis.YP.rotationDegrees(yaw));
-            poseStack.mulPose(Axis.XP.rotationDegrees(pitch));
-
-            reRender(model.getBakedModel(modelResource), poseStack, bufferSource, entity, renderType1, bufferSource.getBuffer(renderType1), partialTick, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
-
-            poseStack.popPose();
-        }
-        if (entity.hasSawDrillHead()) {
-            SawDrillModel model = new SawDrillModel();
-            ResourceLocation modelResource = model.getModelResource(entity);
-            RenderType renderType1 = RenderType.entityCutout(model.getTextureResource(entity));
-
-            float yaw = -entity.getYRot();
-            float pitch = entity.getXRot();
-
-            poseStack.pushPose();
-            poseStack.mulPose(Axis.YP.rotationDegrees(yaw));
-            poseStack.mulPose(Axis.XP.rotationDegrees(pitch));
-
-            reRender(model.getBakedModel(modelResource), poseStack, bufferSource, entity, renderType1, bufferSource.getBuffer(renderType1), partialTick, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
-
-            poseStack.popPose();
-
         }
 
 

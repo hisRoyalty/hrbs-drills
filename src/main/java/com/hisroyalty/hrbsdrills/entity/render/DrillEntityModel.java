@@ -27,12 +27,27 @@ public class DrillEntityModel extends GeoModel<DrillEntity> {
     public void setCustomAnimations(DrillEntity animatable, long instanceId, software.bernie.geckolib.core.animation.AnimationState<DrillEntity> animationState) {
         super.setCustomAnimations(animatable, instanceId, animationState);
         CoreGeoBone main = this.getAnimationProcessor().getBone("main");
+        CoreGeoBone sawDrill = this.getAnimationProcessor().getBone("sawdrill");
+        CoreGeoBone drill = this.getAnimationProcessor().getBone("drill");
+
         if (animatable.hasControllingPassenger()) {
             if (animatable.isVehicle()) {
                 main.setRotY((float) -Math.toRadians(animatable.getYRot()));
             }
         } else {
             main.setRotY((float) -Math.toRadians(animatable.getYRot()));
+        }
+
+
+        if (animatable.hasDrillHead()) {
+            sawDrill.setHidden(true);
+            drill.setHidden(false);
+        } else if (animatable.hasSawDrillHead()) {
+            sawDrill.setHidden(false);
+            drill.setHidden(true);
+        } else {
+            sawDrill.setHidden(true);
+            drill.setHidden(true);
         }
     }
 

@@ -96,7 +96,24 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
 
 
 
-    private final ItemStackHandler itemHandler = new ItemStackHandler(3);
+    private final ItemStackHandler itemHandler = new ItemStackHandler(30) {
+        @Override
+        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+            if (slot == 0) {
+                return stack.getItem().equals(Items.WATER_BUCKET) || stack.getItem().equals(Items.ICE) || stack.getItem().equals(Items.PACKED_ICE) || stack.getItem().equals(Items.BLUE_ICE);
+            }
+            if (slot == 1) {
+                return ForgeHooks.getBurnTime(stack, null) > 0;
+            }
+            if (slot == 2) {
+                return stack.getItem().equals(DrillsMod.DRILL_HEAD.get()) || stack.getItem().equals(DrillsMod.SAW_DRILL_HEAD.get());
+            }
+            if (slot >= 3 && slot < 30) {
+                return getHasChestUpgrade();
+            }
+            return false;
+        }
+    };
     public final LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.of(() -> itemHandler);
 
 
@@ -296,33 +313,72 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
         return false;
     }
 
-        private boolean destroyBlocks(AABB pArea) {
+    private boolean destroyBlocks(AABB pArea) {
 
-            final Vec3 facing = Vec3.directionFromRotation(this.getRotationVector());
-            final double floatingHeight = 0.5;
-            final Vec3 floatingOffset = new Vec3(0, floatingHeight, 0);
-            final AABB box = pArea.move(facing.normalize().add(floatingOffset));
+        final Vec3 facing = Vec3.directionFromRotation(this.getRotationVector());
+        final double floatingHeight = 0.5;
+        final Vec3 floatingOffset = new Vec3(0, floatingHeight, 0);
+        final AABB box = pArea.move(facing.normalize().add(floatingOffset));
 
-            boolean flag = false;
+        boolean flag = false;
 
-            BlockPos.betweenClosedStream(box).forEach(blockPos -> {
+        BlockPos.betweenClosedStream(box).forEach(blockPos -> {
 
-                BlockState blockstate = this.level().getBlockState(blockPos);
-                if (this.hasSawDrillHead()) {
-                    TreeProcessor processor = new TreeProcessor(level());
+            BlockState blockstate = this.level().getBlockState(blockPos);
+            if (this.hasSawDrillHead()) {
+                TreeProcessor processor = new TreeProcessor(level());
 
-                    Set<BlockPos> treeBlocks = processor.gatherTree(blockPos);
+                Set<BlockPos> treeBlocks = processor.gatherTree(blockPos);
 
-                    if (!treeBlocks.isEmpty()) {
-                        processor.processTree(treeBlocks, true, this);
+                if (!treeBlocks.isEmpty()) {
+                    for (BlockPos treePos : treeBlocks) {
+                        BlockState treeBlockState = level().getBlockState(treePos);
+                        ItemStack dropStack = new ItemStack(treeBlockState.getBlock().asItem());
+                        boolean inserted = false;
+                        if (getHasChestUpgrade()) {
+                            for (int slot = 3; slot < itemHandler.getSlots(); slot++) {
+                                ItemStack remaining = itemHandler.insertItem(slot, dropStack.copy(), false);
+                                if (remaining.isEmpty()) {
+                                    inserted = true;
+                                    break;
+                                } else if (remaining.getCount() < dropStack.getCount()) {
+                                    dropStack = remaining;
+                                    inserted = true;
+                                }
+                            }
+                        }
+                        if (!inserted) {
+                            Containers.dropItemStack(level(), treePos.getX(), treePos.getY(), treePos.getZ(), new ItemStack(treeBlockState.getBlock().asItem()));
+                        }
+                        this.level().destroyBlock(treePos, false, this);
                     }
                 }
-                else if (isBreakableBlock(blockstate) && blockstate.canOcclude()) {
-                    this.level().destroyBlock(blockPos, Config.DROP_BLOCK.get(), this);
+            }
+            else if (isBreakableBlock(blockstate) && blockstate.canOcclude()) {
+                ItemStack dropStack = new ItemStack(blockstate.getBlock().asItem());
+                boolean inserted = false;
+                if (getHasChestUpgrade()) {
+                    for (int slot = 3; slot < itemHandler.getSlots(); slot++) {
+                        ItemStack remaining = itemHandler.insertItem(slot, dropStack.copy(), false);
+                        if (remaining.isEmpty()) {
+                            inserted = true;
+                            break;
+                        } else if (remaining.getCount() < dropStack.getCount()) {
+                            dropStack = remaining;
+                            inserted = true;
+                        }
+                    }
                 }
-            });
-            return flag;
+                if (!inserted) {
+                    Containers.dropItemStack(level(), blockPos.getX(), blockPos.getY(), blockPos.getZ(), new ItemStack(blockstate.getBlock().asItem()));
+                }
+                this.level().destroyBlock(blockPos, false, this);
+            }
+        });
+        return flag;
     }
+
+
 
 
 

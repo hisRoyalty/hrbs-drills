@@ -22,6 +22,7 @@ public class DrillContainerScreen extends AbstractContainerScreen<DrillContainer
         DrillEntity drill = pMenu.getDrillEntity();
         boolean hasChestUpgrade = drill.getHasChestUpgrade();
         if (hasChestUpgrade) {
+            this.imageHeight = 220;
             this.inventoryLabelY = (this.inventoryLabelY) + (220 - this.imageHeight) -21;
             this.titleLabelY = this.titleLabelY - 40;
         }
@@ -41,27 +42,6 @@ public class DrillContainerScreen extends AbstractContainerScreen<DrillContainer
         renderTooltip(pGuiGraphics, pMouseX, pMouseY);
     }
 
-/*    @Override
-    protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, GUI);
-
-        DrillEntity drill = menu.getDrillEntity();
-        int x = (this.width - this.imageWidth) / 2;
-        int y = (this.height - this.imageHeight) / 2;
-        //pGuiGraphics.blit(GUI, this.leftPos, this.topPos, 25, 26, this.imageWidth, this.imageHeight, 272, 199);
-        if (!drill.upgrades.isEmpty()) {
-            for (Upgrade upgrade : drill.upgrades.values()) {
-                if (!(upgrade instanceof ChestUpgrade)) {
-                    pGuiGraphics.blit(GUI, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
-                }
-            }
-        } else {
-            pGuiGraphics.blit(GUI, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
-            renderLit(pGuiGraphics, x, y);
-        }
-    }*/
 
     @Override
     protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
@@ -74,8 +54,8 @@ public class DrillContainerScreen extends AbstractContainerScreen<DrillContainer
 
         boolean hasChestUpgrade = drill.getHasChestUpgrade();
         ResourceLocation guiToRender = hasChestUpgrade ? GUI_STOWAGE : GUI;
-        int yPos = hasChestUpgrade ? this.topPos : this.topPos;
-        int UWidth = hasChestUpgrade ? this.imageWidth+12 : this.imageWidth;
+        int yPos = this.topPos;
+        int UWidth = this.imageWidth;
         int UHeight = hasChestUpgrade ? 220 : this.imageHeight;
         RenderSystem.setShaderTexture(0, guiToRender);
         pGuiGraphics.blit(guiToRender, this.leftPos, yPos, 0, 0, UWidth, UHeight);

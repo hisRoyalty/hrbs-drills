@@ -98,6 +98,7 @@ minecraft {
             property 'forge.enabledGameTestNamespaces', mod_id
         }
 
+
         server {
             property 'forge.enabledGameTestNamespaces', mod_id
         }

@@ -52,8 +52,8 @@ public class DrillsMod
     public static final RegistryObject<Item> ENGINE = ITEMS.register("engine", () -> new BiosynthesizingEngine(new Item.Properties()));
 
 
-    public static final RegistryObject<Item> DRILL_HEAD = ITEMS.register("drillhead", () -> new Item(new Item.Properties().stacksTo(1)));
-    public static final RegistryObject<Item> SAW_DRILL_HEAD = ITEMS.register("saw_drillhead", () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final RegistryObject<Item> DRILL_HEAD = ITEMS.register("drillhead", () -> new Item(new Item.Properties().stacksTo(1).durability(2048)));
+    public static final RegistryObject<Item> SAW_DRILL_HEAD = ITEMS.register("saw_drillhead", () -> new Item(new Item.Properties().stacksTo(1).durability(2048)));
     public static final RegistryObject<Item> STOWAGE = ITEMS.register("stowage", () -> new Item(new Item.Properties()));
 
 

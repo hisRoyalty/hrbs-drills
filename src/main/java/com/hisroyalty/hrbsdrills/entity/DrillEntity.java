@@ -16,6 +16,7 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.*;
@@ -323,7 +324,6 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
         boolean flag = false;
 
         BlockPos.betweenClosedStream(box).forEach(blockPos -> {
-
             BlockState blockstate = this.level().getBlockState(blockPos);
             if (this.hasSawDrillHead()) {
                 TreeProcessor processor = new TreeProcessor(level());
@@ -351,6 +351,8 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
                             Containers.dropItemStack(level(), treePos.getX(), treePos.getY(), treePos.getZ(), new ItemStack(treeBlockState.getBlock().asItem()));
                         }
                         this.level().destroyBlock(treePos, false, this);
+                        // Drill head durability logic
+                        maybeDamageDrillHead();
                     }
                 }
             }
@@ -373,9 +375,28 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
                     Containers.dropItemStack(level(), blockPos.getX(), blockPos.getY(), blockPos.getZ(), new ItemStack(blockstate.getBlock().asItem()));
                 }
                 this.level().destroyBlock(blockPos, false, this);
+                maybeDamageDrillHead();
             }
         });
         return flag;
+    }
+
+    /**
+     * Randomly damages the drill head in slot 2 when mining.
+     * If broken, removes the item.
+     */
+    private void maybeDamageDrillHead() {
+        ItemStack head = itemHandler.getStackInSlot(2);
+        if (!head.isEmpty() && (head.is(DrillsMod.DRILL_HEAD.get()) || head.is(DrillsMod.SAW_DRILL_HEAD.get()))) {
+            if (this.level().random.nextInt(3) == 0) {
+                if (this.getControllingPassenger() instanceof ServerPlayer serverPlayer) head.hurt(1, this.level().random, serverPlayer);
+                if (head.getDamageValue() >= head.getMaxDamage()) {
+                    itemHandler.setStackInSlot(2, ItemStack.EMPTY);
+                    setHasDrillHead(false);
+                    setHasSawDrillHead(false);
+                }
+            }
+        }
     }
 
 

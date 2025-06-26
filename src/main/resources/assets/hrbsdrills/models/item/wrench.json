@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "hrbsdrills:item/gasoline"
+    "layer0": "hrbsdrills:item/wrench"
   }
 }

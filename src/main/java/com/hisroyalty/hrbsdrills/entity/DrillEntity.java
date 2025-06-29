@@ -149,6 +149,17 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
         @Override
         public InteractionResult interactAt(Player player, @NotNull Vec3 hitPos, @NotNull InteractionHand hand) {
             ItemStack itemstack = player.getItemInHand(hand);
+
+            // Drop the drill if right-clicked with wrench
+            if (itemstack.getItem() == DrillsMod.WRENCH.get()) {
+                if (!level().isClientSide) {
+                    kill();
+                    dropItem();
+                    drops();
+                }
+                return InteractionResult.SUCCESS;
+            }
+
             if (addUpgrade(player, itemstack)) {
                 return InteractionResult.SUCCESS;
             }

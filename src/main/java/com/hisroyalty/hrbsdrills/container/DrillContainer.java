@@ -41,8 +41,9 @@ public class DrillContainer extends AbstractContainerMenu {
         }
 
         int yOffset = 0;
+        if (drillEntity!=null) yOffset = this.drillEntity.getHasChestUpgrade() ? 26 : -36;
 
-        // Storage upgrade slots (if present)
+            // Storage upgrade slots (if present)
         if (this.drillEntity != null && this.drillEntity.getHasChestUpgrade()) {
             this.drillEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
                 storageSlotStart = this.slots.size();
@@ -55,7 +56,6 @@ public class DrillContainer extends AbstractContainerMenu {
                     }
                 }
             });
-            yOffset = 26; // shift player inventory/hotbar down
         }
 
         // Player inventory

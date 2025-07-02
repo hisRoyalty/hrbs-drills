@@ -56,7 +56,7 @@ public class DrillsMod
     public static final RegistryObject<Item> SAW_DRILL_HEAD = ITEMS.register("saw_drillhead", () -> new Item(new Item.Properties().stacksTo(1).durability(2048)));
     public static final RegistryObject<Item> STOWAGE = ITEMS.register("stowage", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> WRENCH = ITEMS.register("wrench", () -> new Item(new Item.Properties().durability(32)));
-
+    public static final RegistryObject<Item> LIGHT_UPGRADE = ITEMS.register("light_upgrade", () -> new Item(new Item.Properties()));
 
     public static final RegistryObject<Item> DRILL = ITEMS.register("drill", () -> new DrillSpawnEgg(new Item.Properties(), ModEntities.DRILL::get));
 
@@ -107,6 +107,7 @@ public class DrillsMod
                 output.accept(ENGINE.get());
                 output.accept(STOWAGE.get());
                 output.accept(WRENCH.get());
+                output.accept(LIGHT_UPGRADE.get());
             }).build());
     public DrillsMod()
     {

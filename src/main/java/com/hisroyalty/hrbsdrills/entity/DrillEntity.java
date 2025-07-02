@@ -84,6 +84,8 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
 
     public static final EntityDataAccessor<Boolean> HAS_NETHERITE_UPGRADE = SynchedEntityData.defineId(DrillEntity.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> HAS_CHEST_UPGRADE = SynchedEntityData.defineId(DrillEntity.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Boolean> HAS_LIGHT_UPGRADE = SynchedEntityData.defineId(DrillEntity.class, EntityDataSerializers.BOOLEAN);
+
     public static final EntityDataAccessor<Boolean> HAS_DRILL_HEAD = SynchedEntityData.defineId(DrillEntity.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> HAS_SAW_DRILL_HEAD = SynchedEntityData.defineId(DrillEntity.class, EntityDataSerializers.BOOLEAN);
 
@@ -558,6 +560,13 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
                 setHasChestUpgrade(true);
                 return true;
             }
+            if (item.getItem() == DrillsMod.LIGHT_UPGRADE.get() && !this.getHasLightUpgrade()) {
+                if (!player.isCreative()) {
+                    item.shrink(1);
+                }
+                this.entityData.set(HAS_LIGHT_UPGRADE, true);
+                return true;
+            }
             if (item.getItem() == Items.NETHERITE_BLOCK && !this.getNetherite()) {
                 if (!player.isCreative()) {
                     item.shrink(1);
@@ -788,6 +797,7 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
             entityData.define(MAX_WPROGRESS, 0);
             entityData.define(HAS_NETHERITE_UPGRADE, false);
             entityData.define(HAS_CHEST_UPGRADE, false);
+            entityData.define(HAS_LIGHT_UPGRADE, false);
             entityData.define(HAS_DRILL_HEAD, false);
             entityData.define(HAS_SAW_DRILL_HEAD, false);
 
@@ -853,6 +863,14 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
             return entityData.get(HAS_CHEST_UPGRADE);
         }
 
+        public boolean getHasLightUpgrade() {
+            return entityData.get(HAS_LIGHT_UPGRADE);
+        }
+
+        public void setHasLightUpgrade(boolean lightUpgrade) {
+            entityData.set(HAS_LIGHT_UPGRADE, lightUpgrade);
+        }
+
         @Override
         public void readAdditionalSaveData(CompoundTag pCompound) {
             itemHandler.deserializeNBT(pCompound.getCompound("inventory"));
@@ -890,6 +908,9 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
             if (pCompound.contains("chest")) {
                 entityData.set(HAS_CHEST_UPGRADE, pCompound.getBoolean("chest"));
             }
+            if (pCompound.contains("light")) {
+                entityData.set(HAS_LIGHT_UPGRADE, pCompound.getBoolean("light"));
+            }
 
 
 
@@ -915,6 +936,7 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
 
             pCompound.putBoolean("netherite", entityData.get(HAS_NETHERITE_UPGRADE));
             pCompound.putBoolean("chest", entityData.get(HAS_CHEST_UPGRADE));
+            pCompound.putBoolean("light", entityData.get(HAS_LIGHT_UPGRADE));
 
 
 

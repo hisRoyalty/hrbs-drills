@@ -156,6 +156,7 @@ public class DrillEntity extends Entity implements GeoEntity, MenuProvider {
                     kill();
                     dropItem();
                     drops();
+                    itemstack.hurtAndBreak(1, player, (p) -> p.broadcastBreakEvent(hand));
                 }
                 return InteractionResult.SUCCESS;
             }

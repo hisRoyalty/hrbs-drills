@@ -23,7 +23,6 @@ import net.minecraftforge.fml.common.Mod;
 
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.lwjgl.glfw.GLFW;
-import software.bernie.shadowed.eliotlash.mclib.math.functions.limit.Min;
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
 

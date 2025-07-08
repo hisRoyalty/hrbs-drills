@@ -23,8 +23,7 @@ public class DrillContainerScreen extends AbstractContainerScreen<DrillContainer
         boolean hasChestUpgrade = drill.getHasChestUpgrade();
         if (hasChestUpgrade) {
             this.imageHeight = 220;
-            this.inventoryLabelY = (this.inventoryLabelY) + (220 - this.imageHeight) -21;
-            this.titleLabelY = this.titleLabelY - 40;
+            this.inventoryLabelY = this.inventoryLabelY + 62;
         }
         this.inventoryLabelY = this.inventoryLabelY - 5;
         this.titleLabelY = this.titleLabelY - 14;

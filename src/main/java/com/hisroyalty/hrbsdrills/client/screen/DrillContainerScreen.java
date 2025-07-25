@@ -13,8 +13,8 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class DrillContainerScreen extends AbstractContainerScreen<DrillContainer> {
 
-    public static final ResourceLocation GUI = new ResourceLocation(DrillsMod.MODID, "textures/gui/gui_fresh.png");
-    public static final ResourceLocation GUI_STOWAGE = new ResourceLocation(DrillsMod.MODID, "textures/gui/gui_stowage_fresh.png");
+    public static final ResourceLocation GUI = new ResourceLocation(DrillsMod.MODID, "textures/gui/drill_gui.png");
+    public static final ResourceLocation GUI_STOWAGE = new ResourceLocation(DrillsMod.MODID, "textures/gui/drill_gui_storage.png");
 
 
     public DrillContainerScreen(DrillContainer pMenu, Inventory pPlayerInventory, Component pTitle) {
